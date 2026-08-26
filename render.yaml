@@ -1,1 +1,20 @@
-services block with buildCommand: npm run render-build, startCommand: npm run server, and the env vars for MONGODB_URI, SESSION_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
+services:
+  - type: web
+    name: swaraj-portfolio
+    env: node
+    plan: free
+    buildCommand: npm run render-build
+    startCommand: npm run server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_NAME
+        sync: false
