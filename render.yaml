@@ -1,0 +1,1 @@
+services block with buildCommand: npm run render-build, startCommand: npm run server, and the env vars for MONGODB_URI, SESSION_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
