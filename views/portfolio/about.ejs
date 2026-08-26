@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body class="bg-ink">
+
+  <%- include('../partials/nav') %>
+
+  <section class="pt-40 pb-24 max-w-5xl mx-auto px-6 md:px-10">
+    <p class="text-accent text-sm font-semibold tracking-wide">/ About</p>
+    <h1 class="font-display font-extrabold text-5xl mt-4 mb-8">
+      I'm <%= profile.fullName %>
+    </h1>
+    <p class="text-white/60 max-w-2xl leading-relaxed"><%= profile.intro %></p>
+
+    <div class="grid sm:grid-cols-3 gap-6 mt-14">
+      <% profile.stats.forEach(function(stat) { %>
+        <div class="reveal card-hover bg-panel border border-white/10 rounded-xl py-8 px-3 text-center">
+          <p class="font-display font-extrabold text-4xl text-accent"><%= stat.value %></p>
+          <p class="text-xs text-white/50 mt-2 uppercase tracking-wide"><%= stat.label %></p>
+        </div>
+      <% }) %>
+    </div>
+
+    <!-- Education -->
+    <div class="mt-20 reveal">
+      <h2 class="font-display font-semibold text-2xl mb-6">Education</h2>
+      <div class="space-y-6">
+        <% profile.education.forEach(function(edu) { %>
+          <div class="bg-panel border border-white/10 rounded-xl p-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+              <h3 class="font-display font-semibold text-lg"><%= edu.school %></h3>
+              <span class="text-xs text-white/50 uppercase tracking-wide"><%= edu.period %></span>
+            </div>
+            <p class="text-sm text-white/70 mt-1"><%= edu.degree %></p>
+            <p class="text-sm text-white/50 mt-2"><%= edu.detail %></p>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <div class="mt-16 reveal">
+      <h2 class="font-display font-semibold text-2xl mb-6">Achievements</h2>
+      <ul class="space-y-3">
+        <% profile.achievements.forEach(function(item) { %>
+          <li class="flex items-start gap-3 text-sm text-white/70">
+            <i class="fa-solid fa-check text-accent mt-1"></i>
+            <span><%= item %></span>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <!-- Certifications -->
+    <div class="mt-16 reveal">
+      <h2 class="font-display font-semibold text-2xl mb-6">Certifications</h2>
+      <div class="flex flex-wrap gap-3">
+        <% profile.certifications.forEach(function(cert) { %>
+          <span class="px-4 py-2 rounded-full bg-panel border border-white/10 text-sm text-white/70"><%= cert %></span>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/footer') %>
+
+</body>
+</html>

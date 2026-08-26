@@ -1,0 +1,100 @@
+<header class="absolute top-0 left-0 right-0 z-20">
+  <nav class="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-10 py-5 mt-4 bg-panel/60 backdrop-blur border border-white/10 rounded-2xl">
+    <a href="/" class="flex items-center gap-3 group">
+      <span class="w-10 h-10 flex items-center justify-center rounded-xl bg-brand-gradient shadow-lg shadow-accent/25 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:rotate-3">
+        <i class="fa-solid fa-code text-white text-sm"></i>
+      </span>
+      <span class="flex flex-col leading-tight">
+        <span class="font-display font-bold text-lg">Swaraj <span class="text-gradient">Kumar</span></span>
+        <span class="hidden sm:block text-[11px] font-medium tracking-wide text-white/50">Full-Stack Developer</span>
+      </span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-7">
+      <a href="/" class="nav-link <%= currentPage === 'home' ? 'text-white' : '' %>">Home</a>
+      <a href="/about" class="nav-link <%= currentPage === 'about' ? 'text-white' : '' %>">About</a>
+      <a href="/skills" class="nav-link <%= currentPage === 'skills' ? 'text-white' : '' %>">Skills</a>
+      <a href="/portfolio" class="nav-link <%= currentPage === 'portfolio' ? 'text-white' : '' %>">Projects</a>
+      <a href="/contact" class="nav-link <%= currentPage === 'contact' ? 'text-white' : '' %>">Contact</a>
+
+      <div class="relative group">
+        <button class="nav-link flex items-center gap-1">
+          Pages <i class="fa-solid fa-chevron-down text-[10px] mt-0.5"></i>
+        </button>
+        <div class="absolute right-0 mt-3 w-48 bg-panel border border-white/10 rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+          <a href="/results" class="block px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/5">Semester Results</a>
+          <a href="/resume.pdf" target="_blank" class="block px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/5">Resume (PDF)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button id="theme-toggle" aria-label="Toggle theme" class="hidden lg:flex w-10 h-10 items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+        <i class="fa-solid fa-sun text-sm text-white/80"></i>
+      </button>
+
+      <% if (currentUser) { %>
+        <a href="/results" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-xs transition-colors">
+          <i class="fa-solid fa-user text-accent"></i>
+          <span><%= currentUser.name.split(' ')[0] %></span>
+          <% if (currentUser.role === 'admin') { %>
+            <span class="text-[9px] uppercase tracking-wider text-accent border border-accent/30 px-1.5 py-0.5 rounded">Admin</span>
+          <% } %>
+        </a>
+        <form action="/auth/logout" method="POST" class="hidden sm:block">
+          <button type="submit" class="btn-outline !px-4 !py-2.5 text-xs">Logout</button>
+        </form>
+      <% } else { %>
+        <a href="/auth/login" class="hidden sm:inline-flex items-center gap-2 btn-outline !px-4 !py-2.5 text-xs">
+          <i class="fa-solid fa-right-to-bracket"></i> Sign In
+        </a>
+        <a href="/auth/signup" class="hidden sm:inline-flex items-center gap-2 btn-gradient !px-4 !py-2.5 text-xs">
+          <i class="fa-solid fa-user-plus"></i> Sign Up
+        </a>
+      <% } %>
+
+      <button id="mobile-menu-btn" aria-label="Open menu" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors md:hidden">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-menu" class="hidden md:hidden max-w-7xl mx-auto px-6 mt-2">
+    <div class="bg-panel border border-white/10 rounded-2xl p-4 flex flex-col gap-1">
+      <a href="/" class="nav-link py-2">Home</a>
+      <a href="/about" class="nav-link py-2">About</a>
+      <a href="/skills" class="nav-link py-2">Skills</a>
+      <a href="/portfolio" class="nav-link py-2">Projects</a>
+      <a href="/results" class="nav-link py-2">Semester Results</a>
+      <a href="/contact" class="nav-link py-2">Contact</a>
+
+      <% if (currentUser) { %>
+        <div class="border-t border-white/10 mt-2 pt-3 text-sm text-white/60">
+          Signed in as <span class="text-white"><%= currentUser.name %></span>
+          <% if (currentUser.role === 'admin') { %>
+            <span class="text-accent text-xs ml-1">(Admin)</span>
+          <% } %>
+        </div>
+        <form action="/auth/logout" method="POST">
+          <button type="submit" class="btn-outline mt-2 w-full justify-center !py-2.5 text-xs">Logout</button>
+        </form>
+      <% } else { %>
+        <div class="grid grid-cols-2 gap-2 mt-2">
+          <a href="/auth/login" class="btn-outline justify-center !py-2.5 text-xs">Sign In</a>
+          <a href="/auth/signup" class="btn-gradient justify-center !py-2.5 text-xs">Sign Up</a>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</header>
+
+<script>
+  document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+    document.getElementById('mobile-menu')?.classList.toggle('hidden');
+  });
+  document.getElementById('theme-toggle')?.addEventListener('click', (e) => {
+    const icon = e.currentTarget.querySelector('i');
+    icon.classList.toggle('fa-sun');
+    icon.classList.toggle('fa-moon');
+  });
+</script>

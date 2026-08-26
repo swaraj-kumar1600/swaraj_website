@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../partials/head') %></head>
+<body class="bg-ink min-h-screen">
+  <%- include('../partials/nav') %>
+  <main class="min-h-screen pt-40 px-6 flex items-center justify-center text-center">
+    <div>
+      <span class="pill"><i class="fa-solid fa-shield-halved text-accent"></i> 403</span>
+      <h1 class="font-display font-extrabold text-5xl mt-6">Admin access required</h1>
+      <p class="text-white/50 max-w-md mt-4 mx-auto">Your account can view semester results, but only an administrator can add a new result.</p>
+      <a href="/results" class="btn-outline mt-8 inline-flex">Back to Results</a>
+    </div>
+  </main>
+  <%- include('../partials/footer') %>
+</body>
+</html>

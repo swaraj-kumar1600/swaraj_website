@@ -1,0 +1,31 @@
+{
+  "name": "developer-portfolio",
+  "version": "1.0.0",
+  "main": "app.js",
+  "description": "Personal developer portfolio site (Express + EJS + Tailwind + Mongoose), structured after the reference repo's MVC layout.",
+  "scripts": {
+    "tailwind": "tailwindcss -i ./views/input.css -o ./public/output.css --watch",
+    "build:css": "tailwindcss -i ./views/input.css -o ./public/output.css --minify",
+    "start": "nodemon app.js & npm run tailwind",
+    "server": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "nodemon": "^3.1.14",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "express-session": "^1.18.2",
+    "mongoose": "^8.24.4",
+    "multer": "^2.2.0"
+  }
+}

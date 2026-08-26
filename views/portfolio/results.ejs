@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body class="bg-ink">
+
+  <%- include('../partials/nav') %>
+
+  <section class="pt-40 pb-24 max-w-5xl mx-auto px-6 md:px-10">
+    <p class="text-accent text-sm font-semibold tracking-wide">/ Academics</p>
+    <h1 class="font-display font-extrabold text-5xl mt-4 mb-4 animate-fade-in-up">
+      Semester-wise Results
+    </h1>
+    <p class="text-white/60 max-w-2xl leading-relaxed animate-fade-in-up reveal-delay-1">
+      Marksheets for each completed semester, uploaded as PDFs or images.
+    </p>
+
+    <% if (uploaded) { %>
+      <div class="mt-8 px-4 py-3 rounded-lg bg-accent/10 border border-accent/30 text-accent text-sm animate-fade-in-up">
+        <i class="fa-solid fa-circle-check mr-2"></i>Marksheet uploaded successfully.
+      </div>
+    <% } %>
+    <% if (error) { %>
+      <div class="mt-8 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm animate-fade-in-up">
+        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+        <% if (error === 'key') { %>Incorrect admin key.
+        <% } else if (error === 'file') { %>Please choose a file to upload.
+        <% } else if (error === 'filetype') { %>Only PDF, JPG, and PNG files are allowed.
+        <% } else if (error === 'validation') { %>Please check the semester and SGPA values.
+        <% } else if (error === 'save') { %>The file could not be saved. Please try again.
+        <% } else { %>Something went wrong — please try again.
+        <% } %>
+      </div>
+    <% } %>
+
+    <!-- Semester cards -->
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mt-12">
+      <% if (semesters.length === 0) { %>
+        <p class="text-white/40 text-sm col-span-full">No semester results have been uploaded yet.</p>
+      <% } %>
+      <% semesters.forEach(function(sem, i) { %>
+        <a href="<%= sem.filePath %>" target="_blank"
+           class="reveal reveal-delay-<%= (i % 4) + 1 %> card-hover bg-panel border border-white/10 rounded-xl p-6 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="w-10 h-10 rounded-full bg-accent/15 text-accent flex items-center justify-center">
+              <i class="fa-solid fa-file-pdf"></i>
+            </span>
+            <% if (sem.sgpa) { %>
+              <span class="text-xs text-white/50 uppercase tracking-wide">SGPA <%= sem.sgpa %></span>
+            <% } %>
+          </div>
+          <h3 class="font-display font-semibold text-lg"><%= sem.semester %></h3>
+          <span class="btn-link mt-auto">View Marksheet <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></span>
+        </a>
+      <% }) %>
+    </div>
+
+    <% if (currentUser.role === 'admin') { %>
+      <!-- Admin-only upload form -->
+      <div class="mt-20 reveal">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="w-10 h-10 rounded-xl bg-accent/15 text-accent flex items-center justify-center">
+            <i class="fa-solid fa-shield-halved"></i>
+          </span>
+          <div>
+            <h2 class="font-display font-semibold text-2xl">Add a Marksheet</h2>
+            <p class="text-sm text-white/50">Administrator access only.</p>
+          </div>
+        </div>
+
+        <% if (error === 'validation') { %>
+          <div class="mt-5 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+            Semester and SGPA values are invalid. SGPA must be between 0 and 10.
+          </div>
+        <% } %>
+
+        <form action="/results/upload" method="POST" enctype="multipart/form-data"
+              class="mt-6 bg-panel border border-white/10 rounded-xl p-6 grid sm:grid-cols-2 gap-5">
+          <div>
+            <label class="eyebrow block mb-2" for="semester">Semester</label>
+            <input id="semester" type="text" name="semester" placeholder="e.g. Semester 1" required minlength="2" maxlength="40"
+                   class="w-full bg-ink border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors" />
+          </div>
+
+          <div>
+            <label class="eyebrow block mb-2" for="sgpa">SGPA (optional)</label>
+            <input id="sgpa" type="text" name="sgpa" inputmode="decimal" placeholder="e.g. 9.5" pattern="^(10(\.0)?|[0-9](\.[0-9]{1,2})?)$"
+                   class="w-full bg-ink border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors" />
+          </div>
+
+          <div class="sm:col-span-2">
+            <label class="eyebrow block mb-2" for="marksheet">Marksheet File</label>
+            <input id="marksheet" type="file" name="marksheet" accept=".pdf,.jpg,.jpeg,.png" required
+                   class="w-full text-sm text-white/70 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-accent file:text-white file:text-xs file:font-semibold file:uppercase file:tracking-wide hover:file:bg-accent/80 file:cursor-pointer" />
+            <p class="text-xs text-white/40 mt-2">PDF, JPG, JPEG or PNG · maximum 5MB</p>
+          </div>
+
+          <div class="sm:col-span-2">
+            <button type="submit" class="btn-gradient !px-6 !py-3 text-sm normal-case">
+              Upload Marksheet <i class="fa-solid fa-upload text-xs"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    <% } else { %>
+      <div class="mt-20 bg-panel/50 border border-white/10 rounded-2xl p-6 flex gap-4 items-start">
+        <span class="w-10 h-10 shrink-0 rounded-xl bg-accent/15 text-accent flex items-center justify-center">
+          <i class="fa-solid fa-eye"></i>
+        </span>
+        <div>
+          <h2 class="font-display font-semibold text-lg">Student View</h2>
+          <p class="text-sm text-white/50 mt-1">You can view semester results here. Adding or changing results is restricted to administrators.</p>
+        </div>
+      </div>
+    <% } %>
+
+  </section>
+
+  <%- include('../partials/footer') %>
+
+</body>
+</html>

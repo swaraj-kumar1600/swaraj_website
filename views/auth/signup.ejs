@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body class="bg-ink min-h-screen">
+  <%- include('../partials/nav') %>
+
+  <main class="min-h-screen pt-36 pb-20 px-6 flex items-center justify-center">
+    <div class="w-full max-w-md">
+      <div class="text-center mb-8">
+        <span class="pill"><i class="fa-solid fa-user-plus text-accent"></i> Join the portal</span>
+        <h1 class="font-display font-extrabold text-4xl md:text-5xl mt-5">Create account</h1>
+        <p class="text-white/50 mt-3">Create a student account to access semester results.</p>
+      </div>
+
+      <% if (error) { %>
+        <div class="mb-5 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+          <i class="fa-solid fa-circle-exclamation mr-2"></i><%= error %>
+        </div>
+      <% } %>
+
+      <form action="/auth/signup" method="POST" class="bg-panel border border-white/10 rounded-2xl p-7 md:p-8 shadow-2xl">
+        <div class="mb-5">
+          <label class="eyebrow block mb-2" for="name">Full name</label>
+          <input id="name" name="name" type="text" required minlength="2" maxlength="50" autocomplete="name"
+                 value="<%= form.name || '' %>" placeholder="Your name"
+                 class="w-full bg-ink border border-white/10 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-accent transition-colors" />
+        </div>
+
+        <div class="mb-5">
+          <label class="eyebrow block mb-2" for="email">Email</label>
+          <input id="email" name="email" type="email" required maxlength="120" autocomplete="email"
+                 value="<%= form.email || '' %>" placeholder="you@example.com"
+                 class="w-full bg-ink border border-white/10 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-accent transition-colors" />
+        </div>
+
+        <div class="mb-5">
+          <label class="eyebrow block mb-2" for="password">Password</label>
+          <input id="password" name="password" type="password" required minlength="8" maxlength="72" autocomplete="new-password"
+                 placeholder="8+ chars, upper/lowercase & number"
+                 class="w-full bg-ink border border-white/10 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-accent transition-colors" />
+        </div>
+
+        <div class="mb-6">
+          <label class="eyebrow block mb-2" for="confirmPassword">Confirm password</label>
+          <input id="confirmPassword" name="confirmPassword" type="password" required minlength="8" maxlength="72" autocomplete="new-password"
+                 placeholder="Repeat your password"
+                 class="w-full bg-ink border border-white/10 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-accent transition-colors" />
+        </div>
+
+        <button type="submit" class="btn-gradient w-full justify-center !py-3.5">
+          Create Account <i class="fa-solid fa-user-plus text-xs"></i>
+        </button>
+
+        <p class="text-center text-sm text-white/50 mt-6">
+          Already registered?
+          <a href="/auth/login" class="text-accent hover:text-white transition-colors">Sign in</a>
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>
